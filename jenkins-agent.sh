@@ -13,14 +13,17 @@ xfs_growfs /var
 
 yum install java-17-openjdk -y
 
+echo "###### Installing terraform  ######"
 yum install -y yum-utils
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 yum -y install terraform
+
 dnf module disable nodejs -y
 dnf module enable nodejs:20 -y
 dnf install nodejs -y
 yum install zip -y
 
+echo "###### Installing Docker  ######"
 # docker
 yum install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -29,3 +32,15 @@ systemctl start docker
 systemctl enable docker
 usermod -aG docker ec2-user
 newgrp docker
+
+echo "###### Installing kubectl  ######"
+#kubectl installation
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mv kubectl /usr/local/bin/kubectl
+
+echo "###### Installing HELM  ######"
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+echo "###### HELM Installed ######"
